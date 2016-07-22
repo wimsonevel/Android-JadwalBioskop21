@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cinema XXI</string>
+
+    <string name="genre">Genre : %s</string>
+    <string name="duration">Duration : %s</string>
+
+</resources>
