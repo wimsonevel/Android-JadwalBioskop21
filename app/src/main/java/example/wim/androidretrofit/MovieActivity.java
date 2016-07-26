@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import java.net.SocketTimeoutException;
 
 import example.wim.androidretrofit.adapter.MovieListAdapter;
 import example.wim.androidretrofit.listener.RecyclerViewItemClickListener;
+import example.wim.androidretrofit.model.CityData;
 import example.wim.androidretrofit.model.Movie;
 import example.wim.androidretrofit.service.ApiService;
 import example.wim.androidretrofit.util.DividerItemDecoration;
@@ -36,11 +39,12 @@ public class MovieActivity extends AppCompatActivity implements RecyclerViewItem
     private MovieListAdapter movieListAdapter;
 
     private ApiService apiService;
-    private String id;
+    private CityData cityData;
+    private Movie movie;
 
-    public static void start(Context context, String id) {
+    public static void start(Context context, CityData cityData) {
         Intent intent = new Intent(context, MovieActivity.class);
-        intent.putExtra(MovieActivity.class.getSimpleName(), id);
+        intent.putExtra(MovieActivity.class.getSimpleName(), cityData);
         context.startActivity(intent);
     }
 
@@ -49,7 +53,11 @@ public class MovieActivity extends AppCompatActivity implements RecyclerViewItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
-        id = getIntent().getStringExtra(MovieActivity.class.getSimpleName());
+        cityData = getIntent().getParcelableExtra(MovieActivity.class.getSimpleName());
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(cityData.getKota());
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         rvMovie = (RecyclerView) findViewById(R.id.rv_movie);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
@@ -70,7 +78,7 @@ public class MovieActivity extends AppCompatActivity implements RecyclerViewItem
             }
         });
 
-        loadData(id);
+        loadData(cityData.getId());
     }
 
     private void loadData(String id){
@@ -87,7 +95,7 @@ public class MovieActivity extends AppCompatActivity implements RecyclerViewItem
         apiService.getMovieList(id, new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-                Movie movie = (Movie) response.body();
+                movie = (Movie) response.body();
 
                 if(movie != null){
                     movieListAdapter.addAll(movie.getData());
@@ -121,7 +129,7 @@ public class MovieActivity extends AppCompatActivity implements RecyclerViewItem
             @Override
             public void run() {
                 movieListAdapter.clear();
-                loadData(id);
+                loadData(cityData.getId());
             }
         });
     }
@@ -133,7 +141,18 @@ public class MovieActivity extends AppCompatActivity implements RecyclerViewItem
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onItemClick(int position, View view) {
-        ShowtimeActivity.start(this, movieListAdapter.getItem(position));
+        ShowtimeActivity.start(this, movieListAdapter.getItem(position), movie.getDate());
     }
 }

@@ -111,6 +111,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
 
     @Override
     public void onItemClick(int position, View view) {
-        MovieActivity.start(this, cityListAdapter.getItem(position).getId());
+        MovieActivity.start(this, cityListAdapter.getItem(position));
     }
 }

@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.view.MenuItem;
 
 import example.wim.androidretrofit.adapter.ShowtimeListAdapter;
 import example.wim.androidretrofit.model.MovieData;
@@ -22,10 +25,12 @@ public class ShowtimeActivity extends AppCompatActivity {
     private ShowtimeListAdapter showtimeListAdapter;
 
     private MovieData movieData;
+    private String date;
 
-    public static void start(Context context, MovieData movieData) {
+    public static void start(Context context, MovieData movieData, String date) {
         Intent intent = new Intent(context, ShowtimeActivity.class);
-        intent.putExtra(ShowtimeActivity.class.getSimpleName(), movieData);
+        intent.putExtra(ShowtimeActivity.class.getSimpleName() + ".movie", movieData);
+        intent.putExtra(ShowtimeActivity.class.getSimpleName() + ".date", date);
         context.startActivity(intent);
     }
 
@@ -34,7 +39,13 @@ public class ShowtimeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showtime);
 
-        movieData = getIntent().getParcelableExtra(ShowtimeActivity.class.getSimpleName());
+        movieData = getIntent().getParcelableExtra(ShowtimeActivity.class.getSimpleName() + ".movie");
+        date = getIntent().getStringExtra(ShowtimeActivity.class.getSimpleName() + ".date");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(Html.fromHtml(movieData.getMovie()));
+        actionBar.setSubtitle(date);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         rvShowtime = (RecyclerView) findViewById(R.id.rv_showtime);
 
@@ -51,5 +62,16 @@ public class ShowtimeActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
