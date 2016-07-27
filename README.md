@@ -9,3 +9,4 @@ Aplikasi Cek Jadwal Bioskop 21 menggunakan layanan Free API dari [ibacor.com/api
 # Libraries
 
 * [Retrofit](https://github.com/square/retrofit)
+* [Picasso](https://github.com/square/picasso)
