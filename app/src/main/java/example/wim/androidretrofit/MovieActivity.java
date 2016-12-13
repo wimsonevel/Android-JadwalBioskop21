@@ -98,7 +98,11 @@ public class MovieActivity extends AppCompatActivity implements RecyclerViewItem
                 movie = (Movie) response.body();
 
                 if(movie != null){
-                    movieListAdapter.addAll(movie.getData());
+                    if(movie.getStatus().equals("success")) {
+                        movieListAdapter.addAll(movie.getData());
+                    }else{
+                        Toast.makeText(MovieActivity.this, movie.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                     Log.i("STATUS", movie.getStatus());
                 }else{
                     Toast.makeText(MovieActivity.this, "No Data!", Toast.LENGTH_LONG).show();

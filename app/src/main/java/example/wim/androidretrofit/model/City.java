@@ -8,6 +8,7 @@ import java.util.List;
 public class City {
 
     private String status;
+    private String message;
     private List<CityData> data;
 
     public String getStatus() {
@@ -16,6 +17,14 @@ public class City {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public List<CityData> getData() {

@@ -10,15 +10,18 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-
-
-        buildConfigField("String", "BASE_URL", "\"http://ibacor.com/\"")
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'BASE_URL', BASE_URL
+        it.buildConfigField 'String', 'API_KEY', API_KEY
     }
 }
 

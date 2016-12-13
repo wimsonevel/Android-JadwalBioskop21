@@ -74,7 +74,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
                 City city = (City) response.body();
 
                 if(city != null) {
-                    cityListAdapter.addAll(city.getData());
+                    if(city.getStatus().equals("success")) {
+                        cityListAdapter.addAll(city.getData());
+                    }else{
+                        Toast.makeText(MainActivity.this, city.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                     Log.i("STATUS", city.getStatus());
                 }else{
                     Toast.makeText(MainActivity.this, "No Data!", Toast.LENGTH_LONG).show();

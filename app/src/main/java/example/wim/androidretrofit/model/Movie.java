@@ -8,6 +8,7 @@ import java.util.List;
 public class Movie {
 
     private String status;
+    private String message;
     private String kota;
     private String date;
     private List<MovieData> data;
@@ -18,6 +19,14 @@ public class Movie {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getKota() {
