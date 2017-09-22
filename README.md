@@ -1,5 +1,6 @@
 # Android-JadwalBioskop21
 
+(DEPRECATED)
 Aplikasi Cek Jadwal Bioskop 21 menggunakan layanan Free API dari [ibacor.com/api](http://ibacor.com/api)
 
 ![alt tag](https://3.bp.blogspot.com/-lUX3tisKq8E/V5H6a3bt2EI/AAAAAAAAB8o/SdToV8QZ4E4guPys9Nkbqhj_MSc2L2o_gCLcB/s400/device-2016-07-22-145920.png "Jadwal Bioskop 21")
